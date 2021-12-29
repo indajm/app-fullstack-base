@@ -13,11 +13,11 @@ var connection = mysql.createConnection({
 //=======[ Main module code ]==================================================
 
 connection.connect(function(err) {
-    if (err) {
-        console.error('Error while connect to DB: ' + err.stack);
+    if (err) { // If any error occurs, write that error in the console
+        console.error('Error while connecting to DB: ' + err.stack);
         return;
     }
-    console.log('Connected to DB under thread ID: ' + connection.threadId);
+    console.log('Connected to DB under thread ID: ' + connection.threadId); // If everything is OK, print that it's connected
 });
 
 module.exports = connection;

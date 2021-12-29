@@ -19,7 +19,7 @@ En esta imagen podés ver una posible implementación del cliente web que contro
 
 ## Comenzando 🚀
 
-Esta sección es una guía con los pasos escenciales para que puedas poner en marcha la aplicación.
+Esta sección es una guía con los pasos esenciales para que puedas poner en marcha la aplicación.
 
 <details><summary><b>Mira los pasos necesarios</b></summary><br>
 
@@ -162,7 +162,9 @@ Completá los pasos para agregar un dispositivo desde el cliente web.
 
 ### Frontend
 
-Completá todos los detalles sobre cómo armaste el frontend, sus interacciones, etc.
+Los dispositivos se dividen entre los que tienen un dimmer y los que son un switch on-off. Los que tienen un dimmer podrán variar su porcentaje de encendido, de 0% a 100%. En cambio, los que son de on-off solamente podrán estar prendidos o apagados.
+
+Cualquier variación que se haga en los botones quedará guardado en la database. El programa comenzará siempre con la última configuración que setee el usuario
 
 ### Backend
 
@@ -190,7 +192,7 @@ Completá todos los endpoints del backend con los metodos disponibles, los heade
         ]
     },
 }
-``` 
+```
 
 </details>
 
