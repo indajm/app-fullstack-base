@@ -15,7 +15,7 @@ class Main implements EventListenerObject, GetResponseListener, PostResponseList
      private framework:FrameWork = new FrameWork();
      private cards_devices:cards_devices;
 
-
+    //TEST
      public getElement(id: string): HTMLElement{
         /** Recuperamos el botón que tiene ese id*/
         return document.getElementById(id)
@@ -40,7 +40,7 @@ class Main implements EventListenerObject, GetResponseListener, PostResponseList
                     console.log("A device with an on-off switch was pressed")
                     let data:object = {"id":element.id, "state":this.framework.getCurrentState(element.id)};
                     this.framework.requestPost("devices", this, data);
-                }else{
+                }else if (element.id.includes("dimmer")){
                     console.log("A device with a dimmer was pressed")
                     /* Get the value from the slider. I need to add <HTMLInputElement>(...).value because TypeScript is typesafe,
                     so, if I don't add that, it works but it returns an error saying 'The property value does not exist on value of
