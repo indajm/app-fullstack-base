@@ -166,6 +166,11 @@ Los dispositivos se dividen entre los que tienen un dimmer y los que son un swit
 
 Cualquier variación que se haga en los botones quedará guardado en la database. El programa comenzará siempre con la última configuración que setee el usuario
 
+Función **requestGET** en *framework.ts*: se genera un objeto de petición y se hace un get asíncrono que se va a imprimir en la consola. Esto va a devolver todos los dispositivos que estén en url/devices, con sus características
+
+Se define el archivo **cards_devices.ts** que imprime todas las tarjetas de los switches y los dimmers. Para eso, lee todos los dispositivos que están en localhost:8000/devices y se fija si el id de la tarjeta empieza con device (corresponde a un switch) o con dimmer (corresponde a un dimmer), e imprime la tarjeta que le corresponde
+
+
 ### Backend
 
 Completá todos los detalles de funcionamiento sobre el backend, sus interacciones con el cliente web, la base de datos, etc.
