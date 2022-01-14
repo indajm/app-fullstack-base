@@ -197,32 +197,6 @@ También se podrá leer un dispositivo con un id en particular, desde *devices/:
 Cuando se quiere actualizar el estado de un dispositivo, se deberá usar el método POST. Los IDs de todas las tarjetas (elementos) serán del tipo *device_N* o *dimmer_N*, siendo N un número entero que representa al ID. Por eso, lo primero que se hará en la función POST es un split y quedarse con el número del ID (es decir, `id = req.body.id.split("_")[1]`). Luego, se leerá el estado actual de la tarjeta y se lo imprimirá en la base de datos usando la query `UPDATE Devices SET state=? WHERE id=?`, nuevamente escribiendo las queries con ? para evitar el ataque por SQL injection. En caso de que haya un error en la actualización, se imprimirá un estado 400
 
 
-<details><summary><b>Ver los endpoints disponibles</b></summary><br>
-
-Completá todos los endpoints del backend con los metodos disponibles, los headers y body que recibe, lo que devuelve, ejemplos, etc.
-
-1) Devolver el estado de los dispositivos.
-
-```json
-{
-    "method": "get",
-    "request_headers": "application/json",
-    "request_body": "",
-    "response_code": 200,
-    "request_body": {
-        "devices": [
-            {
-                "id": 1,
-                "status": true,
-                "description": "Kitchen light"
-            }
-        ]
-    },
-}
-```
-
-</details>
-
 </details>
 
 
