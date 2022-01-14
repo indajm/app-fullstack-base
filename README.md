@@ -182,7 +182,20 @@ En la consola se imprimirá el ID del elemento para que el usuario pueda verlo. 
 
 ### Backend
 
-Completá todos los detalles de funcionamiento sobre el backend, sus interacciones con el cliente web, la base de datos, etc.
+Los datos de los dispositivos se guardan en la base de datos de MySQL, a la que se puede acceder a través de http://localhost:8001. 
+
+#### Método GET
+
+Cuando se quiere leer los dispositivos que están alojados en http://localhost:8000/devices, se usará el comando SQL `SELECT * FROM Devices`. En caso de que haya un error, se devolverá un mensaje con estado 400 y el mensaje del error. En caso de un correcto funcionamiento, se devolverá un estado 200.
+
+Este método se usa para imprimir los dispositivos en la consola a través del botón *Imprimir dispositivos en la consola* y también para imprimir las tarjetas de los switches/dimmers, ya que el programa lee los dispositivos que se alojan en la base de datos y a partir de esos datos crea las tarjetas
+
+También se podrá leer un dispositivo con un id en particular, desde *devices/:id*, usando la query `SELECT * FROM Devices WHERE id=?`. Se usa esta forma de escribirlo (con el ? y el parámetro del ID pasado como *req.params.id*) para evitar el ataque de SQL injection, que es el tipo de hackeo más común.
+
+#### Método POST
+
+Cuando se quiere actualizar el estado de un dispositivo, se deberá usar el método POST. Los IDs de todas las tarjetas (elementos) serán del tipo *device_N* o *dimmer_N*, siendo N un número entero que representa al ID. Por eso, lo primero que se hará en la función POST es un split y quedarse con el número del ID (es decir, `id = req.body.id.split("_")[1]`). Luego, se leerá el estado actual de la tarjeta y se lo imprimirá en la base de datos usando la query `UPDATE Devices SET state=? WHERE id=?`, nuevamente escribiendo las queries con ? para evitar el ataque por SQL injection. En caso de que haya un error en la actualización, se imprimirá un estado 400
+
 
 <details><summary><b>Ver los endpoints disponibles</b></summary><br>
 
