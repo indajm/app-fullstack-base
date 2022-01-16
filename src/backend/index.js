@@ -20,23 +20,7 @@ app.use(express.static('/home/node/app/static/'));
 
 // Display all Devices in localhost:8080/devices
 app.get('/devices', function(req, res, next) { // If I change /devices for /devicestest, everything will be printed in /devicestest
-    /*devices = [
-        { 
-            'id': 1, 
-            'name': 'Lampara 1', 
-            'description': 'Luz living', 
-            'state': 0, 
-            'type': 1, 
-        },
-        { 
-            'id': 2, 
-            'name': 'Ventilador 1', 
-            'description': 'Ventilador Habitacion', 
-            'state': 1, 
-            'type': 2, 
-        },
-    ]
-    res.send(JSON.stringify(devices)).status(200);*/
+    
     utils.query("SELECT * FROM Devices", function(err, answer){
         if (err){
             answer.send(err).status(400);
@@ -75,7 +59,7 @@ app.post('/devices', function(req, res, next){
             console.log("Error updating Devices");
             return;
         }
-        res.send(JSON.stringify(req.body));
+        res.send(JSON.stringify(req.body)).status(200);
     });
     //res.send(JSON.stringify(req.body));
     //console.log("End");
@@ -85,5 +69,22 @@ app.post('/devices', function(req, res, next){
 app.listen(PORT, function(req, res) {
     console.log("NodeJS API running correctly in port " + PORT);
 });
+
+
+// DELETE
+app.delete('/devices', function(req, res, next) { // If I change /devices for /devicestest, everything will be printed in /devicestest
+    console.log("ID: ");
+    console.log("req: ", req.body);
+    id = req.body.id.split("_")[1]; //device_i
+    
+    utils.query("DELETE FROM Devices WHERE id=?", [id], function(err, answer){
+        if (err){
+            answer.send(err).status(400);
+            return;
+        }
+        res.send(answer).status(200);
+    });
+});
+
 
 //=======[ End of file ]=======================================================
