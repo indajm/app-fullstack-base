@@ -194,7 +194,11 @@ También se podrá leer un dispositivo con un id en particular, desde *devices/:
 
 #### Método POST
 
-Cuando se quiere actualizar el estado de un dispositivo, se deberá usar el método POST. Los IDs de todas las tarjetas (elementos) serán del tipo *device_N* o *dimmer_N*, siendo N un número entero que representa al ID. Por eso, lo primero que se hará en la función POST es un split y quedarse con el número del ID (es decir, `id = req.body.id.split("_")[1]`). Luego, se leerá el estado actual de la tarjeta y se lo imprimirá en la base de datos usando la query `UPDATE Devices SET state=? WHERE id=?`, nuevamente escribiendo las queries con ? para evitar el ataque por SQL injection. En caso de que haya un error en la actualización, se imprimirá un estado 400
+Cuando se quiere actualizar el estado de un dispositivo, se deberá usar el método POST. Los IDs de todas las tarjetas (elementos) serán del tipo *device_N* o *dimmer_N*, siendo N un número entero que representa al ID. Por eso, lo primero que se hará en la función POST es un split y leer el número del ID (es decir, `id = req.body.id.split("_")[1]`). Luego, se leerá el estado actual de la tarjeta y se lo imprimirá en la base de datos usando la query `UPDATE Devices SET state=? WHERE id=?`, nuevamente escribiendo las queries con ? para evitar el ataque por SQL injection. En caso de que haya un error en la actualización, se imprimirá un estado 400
+
+#### Método DELETE
+
+Cuando se quiere eliminar un dispositivo, se deberá usar el método DELETE. Los IDs de todas las tarjetas (elementos) serán del tipo *delete_N*, siendo N un número entero que representa al ID. Por eso, lo primero que se hará es un split y leer el número del ID (es decir, `id = req.body.id.split("_")[1]`). Luego, se ejecutará la query `DELETE FROM Devices WHERE id=?`, nuevamente escribiendo las queries con ? para evitar el ataque por SQL injection. En caso de que haya un error en la actualización, se imprimirá un estado 400
 
 
 </details>
