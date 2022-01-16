@@ -24,7 +24,7 @@ class FrameWork{
     }
 
 
-    public requestPost(url: string, listener: PostResponseListener, newdata: object){
+    public requestPOST(url: string, listener: PostResponseListener, newdata: object){
         console.log("newdata: ", newdata);
         let xmlHttp = new XMLHttpRequest();
         
@@ -47,6 +47,30 @@ class FrameWork{
         console.log("stringify: ", JSON.stringify(newdata));
     }
 
+
+    public requestDELETE(url: string, listener: DeleteResponseListener, data: any){ //listener es a quién quiero que le avise
+        //Vamos a hacer que nos responda a una interfaz en vez de a nuestro main
+
+        /** Primero, genero el objeto de petición (es el objeto XMLHttpRequest) */
+        let xml = new XMLHttpRequest();
+
+        /** Segundo paso,  configuro qué función quiero que se ejecute cuando tenemos una respuesta del servidor */
+        xml.onreadystatechange = function respuestaServidor() {
+            console.log(xml.readyState);
+            if (xml.readyState == 4){ /** Significa que tenemos información para mostrar. Si el estado es 1, 2 o 3, todavía está procesando la info */
+                listener.handleDeleteResponse(xml.status, xml.responseText);
+            }
+            
+        }
+        console.log("OPEN DELETE");
+        /** Tercer paso, abro un enlace de conexión con el servidor */
+        xml.open("DELETE", url, true); /** La ruta es donde voy a hacer la petición. El true indica que la petición va a ser asíncrona */
+        xml.setRequestHeader("Content-Type", "application/json");
+        /** Por último, enviamos la información */
+        console.log("JSON: ", JSON.stringify(data));
+        xml.send(JSON.stringify(data));
+    }
+
     public getElementById(id: string):HTMLElement
     {
         let element:HTMLElement;
@@ -59,12 +83,7 @@ class FrameWork{
         id_element.addEventListener("click", listener);
     }
 
-    public current_button_onclick(id: string, listener: EventListenerObject){
-        let id_element: HTMLElement = this.getElementById(id);
-        
-        id_element.addEventListener("click", listener);
-    }
-
+    
     public getElementByEvent(evt:Event):HTMLElement
     {
         return <HTMLElement>evt.target;

@@ -8,14 +8,14 @@ interface DeviceParameters{
 }
 
 /** Hagamos una clase para  estructurar los cambios. Heredamos las interfaces: EventListenerObject, GetResponseListener */
-class Main implements EventListenerObject, GetResponseListener, PostResponseListener{
+class Main implements EventListenerObject, GetResponseListener, PostResponseListener, DeleteResponseListener{
      private nombre: string;
      /** Definimos un array de tipo User */
      private lista: Array<User> = new Array();
      private framework:FrameWork = new FrameWork();
      private cards_devices:cards_devices;
 
-    //TEST
+    
      public getElement(id: string): HTMLElement{
         /** Recuperamos el botón que tiene ese id*/
         return document.getElementById(id)
@@ -37,9 +37,9 @@ class Main implements EventListenerObject, GetResponseListener, PostResponseList
                 console.log("element.id: ", element.id);
 
                 if (element.id.includes("device")){
-                    console.log("A device with an on-off switch was pressed")
+                    console.log("A device with an on-off switch was pressed");
                     let data:object = {"id":element.id, "state":this.framework.getCurrentState(element.id)};
-                    this.framework.requestPost("devices", this, data);
+                    this.framework.requestPOST("devices", this, data);
                 }else if (element.id.includes("dimmer")){
                     console.log("A device with a dimmer was pressed")
                     /* Get the value from the slider. I need to add <HTMLInputElement>(...).value because TypeScript is typesafe,
@@ -48,7 +48,13 @@ class Main implements EventListenerObject, GetResponseListener, PostResponseList
                     */
                     var inputValue = (<HTMLInputElement>this.framework.getElementByEvent(ev)).value;
                     let data:object = {"id":element.id, "state":inputValue};
-                    this.framework.requestPost("devices", this, data);
+                    this.framework.requestPOST("devices", this, data);
+                }
+                else if (element.id.includes("delete")){
+                    console.log("DELETE was pressed");
+                    let data:object = {"id":element.id};
+                    this.framework.requestDELETE("devices", this, data);
+                
                 }
                 
 
@@ -76,9 +82,15 @@ class Main implements EventListenerObject, GetResponseListener, PostResponseList
                 if (respuestaObjetos[disp].dimmer==false){
                     this.framework.current_button_click(`device_${respuestaObjetos[disp].id}`, this);
                 }else{
-                    this.framework.current_button_onclick(`dimmer_${respuestaObjetos[disp].id}`, this);
+                    this.framework.current_button_click(`dimmer_${respuestaObjetos[disp].id}`, this);
                 }
+                this.framework.current_button_click(`delete_${respuestaObjetos[disp].id}`, this);
             }
+            //this.framework.current_button_click(`btn_add_device`, this);
+
+            //this.framework.current_button_click(`addNewDevice`, this);
+
+            
             /*for (let disp of respuestaObjetos){
                 console.log(disp.name, disp.state);
             }*/
@@ -94,6 +106,16 @@ class Main implements EventListenerObject, GetResponseListener, PostResponseList
         }
     }
 
+    public handleDeleteResponse(status: number, response:string):void{
+        if (status==200){
+            console.log("response handleDelete: ", response);
+        }
+        else{
+            console.log("response handleDelete: STATUS NOT 200");
+        }
+    }
+
+
     /** Veamos el uso de Ajax 
      * Va a ir al servidor a consultar el listado de dispositivos (lo que veo en localhost:8000/devices)
     */
@@ -101,6 +123,7 @@ class Main implements EventListenerObject, GetResponseListener, PostResponseList
         
     }
 
+    
 
     public main(){
         /*let button = this.getElement("btn");
@@ -125,5 +148,8 @@ window.onload = function inicio() {
     // Los botones (id, name) están definidos en index.html
 
     //M.AutoInit;
-
+    /*M.Modal.init(
+        document.querySelectorAll('.modal'), 
+        {}
+      );*/
 }

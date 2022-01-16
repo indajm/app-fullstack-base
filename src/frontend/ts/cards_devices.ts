@@ -9,8 +9,11 @@ class cards_devices{
     showCards(data:DeviceParameters[]){
 
         let cards:string="";
+        cards = `<div class="row">`;
         let is_checked:string="";
         let devicesUl:HTMLElement=this.frmwrk.getElementById("cards_for_devices");
+        var i_number:number;
+
         for (let i in data){
             if (data[i].state==1){
                 is_checked = "checked";
@@ -20,7 +23,7 @@ class cards_devices{
         
         if (data[i].dimmer==false){
             cards+= ` 
-            <div class="row">
+            
                 <div class="col s12 m4">
                     <div class="card blue-grey darken-1">
                         <div class="card-content white-text">
@@ -36,10 +39,13 @@ class cards_devices{
                                     On
                                 </label>
                             </div>
+                            <div class="card-action">
+                                <a id="delete_${data[i].id}" > Eliminar </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>`
+            `
         }else{
             cards+= ` 
             <div class="row">
@@ -57,10 +63,19 @@ class cards_devices{
                                 value = ${data[i].state} 
                                 />
                             </p>
+                            <div class="card-action">
+                                <a id="delete_${data[i].id}" > Eliminar </a>
+                            </div>
                         </div>
+                        
                     </div>
                 </div>
-            </div>`
+            `
+        }
+        i_number = +i;
+        if ((i_number-2) % 3 == 0){
+            cards+=`</div>`;
+            console.log("Row with 3 cards was printed");
         }
         }
         devicesUl.innerHTML=cards;
